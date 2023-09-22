@@ -1,12 +1,22 @@
 import { NavLink, useLoaderData, useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { saveApplicationJob } from "../utility/localStrorage";
 
 const JobDetails = () => {
 
     const jobs = useLoaderData()
-    const {id} = useParams();
-    const idInt= parseInt(id)
+    const { id } = useParams();
+    const idInt = parseInt(id)
     const job = jobs.find(job => job.id === idInt);
-    console.log(job);
+    // console.log(job);
+
+    const handleApplayedJob = () => {
+        saveApplicationJob(idInt)
+        toast("You have Applaying job Successfully...");
+    }
+
+
     return (
         <div>
             <div className="grid md:grid-cols-6 gap-4 my-16">
@@ -27,9 +37,10 @@ const JobDetails = () => {
                     <p><span className="text-lg font-bold my-2">Email: </span>{job.contact_information.email}</p>
                     <p><span className="text-lg font-bold my-2">Address: </span>{job.contact_information.address}</p>
                     <NavLink>
-                        <button className="btn btn-primary w-full mt-4">Apply Now</button>
+                        <button onClick={handleApplayedJob} className="btn btn-primary w-full mt-4">Apply Now</button>
                     </NavLink>
                 </div>
+                <ToastContainer />
             </div>
         </div>
     );
